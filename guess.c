@@ -3,14 +3,14 @@
 #include<time.h>
 
 char id[20],pwd[20],text[50];
-
-//µÇÂ¼ 
-int login()
+//ç™»å½• 
+//int login
+void login()
 {
-    printf("µÇÂ¼½çÃæ\n");
-    printf("ID£º");
+    printf("ç™»å½•ç•Œé¢\n");
+    printf("IDï¼š");
     gets(id);
-    printf("PWD£º");
+    printf("PWDï¼š");
     gets(pwd); 
     strcat(id,pwd);
     strcat(id,"\n");
@@ -19,8 +19,7 @@ int login()
     FILE *fp = fopen("user.txt", "r");
     if(NULL == fp)
     {
-        printf("Failed to open user.txt\n");
-        return 0; 
+        printf("Failed to open user.txt\n");//return 0; 
     }
 
     while(!feof(fp))
@@ -36,31 +35,39 @@ int login()
     
     if(ok)
     {
-      printf("µÇÂ¼³É¹¦!\n");
+      printf("ç™»å½•æˆåŠŸ!\n");
 	}
     else
     {
-      printf("µÇÂ¼Ê§°Ü!\n");
+      printf("ç™»å½•å¤±è´¥!\n");
 	}
 	fclose(fp);
 }
 
-//×¢²á 
+//æ³¨å†Œ 
 void regist()
 {
-	printf("×¢²á½çÃæ\n");
-    
+	printf("æ³¨å†Œç•Œé¢\n");
+    	FILE *fp = fopen("user.txt","a");
+    printf("ID:");
+    gets(id);
+    printf("PWD:");
+    gets(pwd);
+    fputs(id,fp);
+    fputs(pwd,fp);
+    fputs("\n",fp);
+    fflush(stdin);
+    fclose(fp);
     login();
 }
 
-//ÓÎÏ· 
+//æ¸¸æˆ 
 void game()
 {	 
-	clock_t start, end;
+	 time_t start, end;
     start = clock();
-    printf("runtime = %f\n",run_time);
     int num = rand() % 1000;  
-    int guess, i = 0; 
+    int guess, i = 0,t = 0; 
 	int min = 0, max = 1000;  
     while (1)
 	{
@@ -69,33 +76,34 @@ void game()
         if (num > guess)
 		{
             i++;	
-            printf("²ÂĞ¡ÁË\n");
+            printf("çŒœå°äº†\n");
             min = guess;
-            printf("·¶Î§:%d - %d\n", min, max);
+            printf("èŒƒå›´:%d - %d\n", min, max);
         }
 		else if (num < guess)
 		{
             i++;	
-            printf("²Â´óÁË\n");
+            printf("çŒœå¤§äº†\n");
             max = guess;
-            printf("·¶Î§:%d - %d\n", min, max);
+            printf("èŒƒå›´:%d - %d\n", min, max);
         }
 		else
 		{
             i++;	
             end = clock();
-            printf("²Â¶ÔÁË!\n²ÂÊı´ÎÊı£º%d´Î\nÓÃÊ±£º%dÃë", i, t);  
+	    t=difftime(end,start);
+            printf("çŒœå¯¹äº†!\nçŒœæ•°æ¬¡æ•°ï¼š%dæ¬¡\nç”¨æ—¶ï¼š%dç§’", i, t);  
             break;
         }
  
     }
 }
 
-//²Ëµ¥ 
+//èœå• 
 void meun()
 {
-	printf("1 ×¢²á\n");
-	printf("0 µÇÂ¼\n");
+	printf("1 æ³¨å†Œ\n");
+	printf("0 ç™»å½•\n");
     int a = 0;
     scanf("%d",&a);
     fflush(stdin);
@@ -106,7 +114,10 @@ void meun()
 }
 
 int main()
-{ 
+{ 	
+	clock_t StArT, End; 
+	double run_time;
+	StArT=clock();//å¼€å§‹è¿è¡Œ
 	int a;
     meun();
     printf("1 Play\n");
@@ -121,8 +132,12 @@ int main()
         break;
         
         default:
-        printf("Ñ¡Ïî´íÎó!\nÇëÖØĞÂÊäÈë£º\n");
+        printf("é€‰é¡¹é”™è¯¯!\nè¯·é‡æ–°è¾“å…¥ï¼š\n");
     }
+	End=clock();//ç»“æŸè¿è¡Œ
+	run_time=(double)(End - StArT)/CLOCKS_PER_SEC;//è®¡ç®—æ—¶é—´
+	printf("runtime = %f\n",run_time);//è¾“å‡º	
     return 0;
 }
 
+ 
