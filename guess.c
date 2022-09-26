@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
-#include<time.h>
-
+#include <time.h>
+#include <stdlib.h>
 char id[20],pwd[20],text[50];
 //登录 
 //int login
@@ -64,9 +64,10 @@ void regist()
 //游戏 
 void game()
 {	 
-	 time_t start, end;
+	clock_t start, end;
+	srand((unsigned int)time(0));
     start = clock();
-    int num = rand() % 1000;  
+    int num =rand()%1000;  
     int guess, i = 0,t = 0; 
 	int min = 0, max = 1000;  
     while (1)
@@ -91,8 +92,8 @@ void game()
 		{
             i++;	
             end = clock();
-	    t=difftime(end,start);
-            printf("猜对了!\n猜数次数：%d次\n用时：%d秒", i, t);  
+	    t=(double)(end - start)/CLOCKS_PER_SEC;
+            printf("猜对了!\n猜数次数：%d次\n用时：%d秒\n", i, t);  
             break;
         }
  
